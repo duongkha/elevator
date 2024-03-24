@@ -1,0 +1,68 @@
+﻿<Window x:Class="ElevatorSystem.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ElevatorSystem"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Closed="Window_Closed">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0">
+                <Label HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Top">Floor 5</Label>
+                <Button Name="btnDown_4" Content="Down" HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Top" Height="29" Width="64" Click="ButtonOutSideRequest_Click"/>
+            </DockPanel>
+            <DockPanel Grid.Row="1">
+                <Label HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Top">Floor 4</Label>
+                <Button Name="btnUp_3" Content="Up" HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Top" Height="29" Width="64" Click="ButtonOutSideRequest_Click"/>
+                <Button Name="btnDown_3" Content="Down" HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Top" Height="29" Width="64" Click="ButtonOutSideRequest_Click"/>
+            </DockPanel>
+            <DockPanel Grid.Row="2">
+                <Label HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Top">Floor 3</Label>
+                <Button Name="btnUp_2" Content="Up" HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Top" Height="29" Width="64" Click="ButtonOutSideRequest_Click"/>
+                <Button Name="btnDown_2" Content="Down" HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Top" Height="29" Width="64" Click="ButtonOutSideRequest_Click"/>
+            </DockPanel>
+            <DockPanel Grid.Row="3">
+                <Label HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Top">Floor 2</Label>
+                <Button Name="btnUp_1"  Content="Up" HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Top" Height="29" Width="64" Click="ButtonOutSideRequest_Click"/>
+                <Button Name="btnDown_1" Content="Down" HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Top" Height="29" Width="64" Click="ButtonOutSideRequest_Click"/>
+            </DockPanel>
+            <DockPanel Grid.Row="4">
+                <Label HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Top">Floor 1</Label>
+                <Button Name="btnUp_0" Content="Up" HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Top" Height="29" Width="64" Click="ButtonOutSideRequest_Click"/>
+            </DockPanel>
+            <DockPanel Grid.Row="5">
+                <Button Name="btnUp_Automate" Content="Automate" HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Top" Height="29" Width="64" Click="btnUp_Automate_Click"/>
+            </DockPanel>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Column="1" Grid.Row="0">
+                <Button Name="btnFloor_0"  Content="1" HorizontalAlignment="Left" Margin="5,10,10,10"  VerticalAlignment="Center" Height="29" Width="64" Click="ButtonInsideRequest_Click"/>
+                <Button Name="btnFloor_1" Content="2" HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Center" Height="29" Width="64" Click="ButtonInsideRequest_Click"/>
+                <Button Name="btnFloor_2" Content="3" HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Center" Height="29" Width="64" Click="ButtonInsideRequest_Click"/>
+                <Button Name="btnFloor_3" Content="4" HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Center" Height="29" Width="64" Click="ButtonInsideRequest_Click"/>
+                <Button Name="btnFloor_4" Content="5" HorizontalAlignment="Left" Margin="5,10,10,10"  VerticalAlignment="Center" Height="29" Width="64" Click="ButtonInsideRequest_Click"/>
+            </DockPanel>
+            <DockPanel Grid.Row="1" Grid.Column="1">
+                <TextBox TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Name="txtMessage"/>
+            </DockPanel>
+        </Grid>
+
+    </Grid>
+</Window>
