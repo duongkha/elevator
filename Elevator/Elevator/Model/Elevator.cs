@@ -46,6 +46,7 @@ namespace ElevatorSystem.Model
 
         public delegate void UpdateStatus(string message);
         public event UpdateStatus? OnUpdateStatus;
+        object lockobj = new object();
 
         public Elevator(int id, string name, int numOfFloor)
         {
@@ -61,7 +62,10 @@ namespace ElevatorSystem.Model
         /// <returns></returns>
         public Boolean IsUpRequestEmpty()
         {
-            return this.upRequests.Count == 0;
+            lock (lockobj)
+            {
+                return this.upRequests.Count == 0;
+            }
         }
         /// <summary>
         /// is queue empty
@@ -69,7 +73,10 @@ namespace ElevatorSystem.Model
         /// <returns></returns>
         public Boolean IsDownRequestEmpty()
         {
-            return this.downRequests.Count == 0;
+            lock (lockobj)
+            {
+                return this.downRequests.Count == 0;
+            }
         }
         /// <summary>
         /// get next request in queue
@@ -77,7 +84,11 @@ namespace ElevatorSystem.Model
         /// <returns></returns>
         public Request NextUpRequest()
         {
-            return this.upRequests.Dequeue();
+            lock (lockobj)
+            {
+                return this.upRequests.Dequeue();   
+            }
+            
         }
         /// <summary>
         /// get next request in queue
@@ -85,7 +96,11 @@ namespace ElevatorSystem.Model
         /// <returns></returns>
         public Request NextDownRequest()
         {
-            return this.downRequests.Dequeue();
+            lock(lockobj)
+            {
+                return this.downRequests.Dequeue();
+            }
+           
         }
         
         public int GetSpeed()
@@ -100,28 +115,32 @@ namespace ElevatorSystem.Model
         /// <param name="direction"></param>
         public void AddRequest(int floor, Location location, Direction direction)
         {
-            //TODO: can utilize Request to implement more features.
-            Request request = new Request(floor, location, direction);
-            if (request.Direction == Direction.DOWN)
+            lock (lockobj)
             {
-               if(floor > this.CurrentFloor)
+                //TODO: can utilize Request to implement more features.
+                Request request = new Request(floor, location, direction);
+                if (request.Direction == Direction.DOWN)
                 {
-                    this.upRequests.Enqueue(request , floor );
-                }else
-                    this.downRequests.Enqueue(request, this.NumOfFloor- floor);
-                Debug.WriteLine("Added down request {0}", request);
+                    if (floor > this.CurrentFloor)
+                    {
+                        this.upRequests.Enqueue(request, floor);
+                    }
+                    else
+                        this.downRequests.Enqueue(request, this.NumOfFloor - floor);
+                    Debug.WriteLine("Added down request {0}", request);
 
-            }
-            else
-            {
-                if(floor < this.CurrentFloor)
-                    this.downRequests.Enqueue(request, this.NumOfFloor-floor );
+                }
                 else
-                    this.upRequests.Enqueue(request, floor);
-                Debug.WriteLine("Added up request {0}", request);
-            }
+                {
+                    if (floor < this.CurrentFloor)
+                        this.downRequests.Enqueue(request, this.NumOfFloor - floor);
+                    else
+                        this.upRequests.Enqueue(request, floor);
+                    Debug.WriteLine("Added up request {0}", request);
+                }
 
-            Notification(string.Format("Added request {0}", request));
+                Notification(string.Format("Added request {0}", request));
+            }
         }
         /// <summary>
         /// move to floor
