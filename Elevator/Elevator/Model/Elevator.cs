@@ -104,7 +104,6 @@ namespace ElevatorSystem.Model
             Request request = new Request(floor, location, direction);
             if (request.Direction == Direction.DOWN)
             {
-               // this.downRequests[floor] = true;
                if(floor > this.CurrentFloor)
                 {
                     this.upRequests.Enqueue(request , floor );
@@ -115,7 +114,6 @@ namespace ElevatorSystem.Model
             }
             else
             {
-                //this.upRequests[floor] = true;
                 if(floor < this.CurrentFloor)
                     this.downRequests.Enqueue(request, this.NumOfFloor-floor );
                 else
