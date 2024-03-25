@@ -38,11 +38,11 @@ namespace ElevatorSystem.Model
         /// <summary>
         /// Store up requested floors
         /// </summary>
-        private Boolean[] upRequests;
+        private PriorityQueue<Request, int> upRequests= new PriorityQueue<Request, int>();
         /// <summary>
         /// Store down requested floors
         /// </summary>
-        private Boolean[] downRequests;
+        private PriorityQueue<Request,int> downRequests = new PriorityQueue<Request, int>();
 
         public delegate void UpdateStatus(string message);
         public event UpdateStatus? OnUpdateStatus;
@@ -54,42 +54,40 @@ namespace ElevatorSystem.Model
             this.NumOfFloor = numOfFloor;
             this.CurrentFloor = 0;
             this.Status = ElevatorStatus.Stopped;
-
-            this.upRequests = new Boolean[numOfFloor];
-            this.downRequests = new Boolean[numOfFloor];
         }
-        public int GetFirstUpRequest()
+        /// <summary>
+        /// is queue empty
+        /// </summary>
+        /// <returns></returns>
+        public Boolean IsUpRequestEmpty()
         {
-            return Array.IndexOf(this.upRequests, true);
+            return this.upRequests.Count == 0;
         }
-        public int GetFirstDownRequest()
+        /// <summary>
+        /// is queue empty
+        /// </summary>
+        /// <returns></returns>
+        public Boolean IsDownRequestEmpty()
         {
-            return Array.LastIndexOf(this.downRequests, true);
+            return this.downRequests.Count == 0;
         }
-        public Boolean[] GetUpRequests()
+        /// <summary>
+        /// get next request in queue
+        /// </summary>
+        /// <returns></returns>
+        public Request NextUpRequest()
         {
-            return this.upRequests;
+            return this.upRequests.Dequeue();
         }
-        public Boolean GetUpRequest(int floor)
+        /// <summary>
+        /// get next request in queue
+        /// </summary>
+        /// <returns></returns>
+        public Request NextDownRequest()
         {
-            return this.upRequests[floor];
+            return this.downRequests.Dequeue();
         }
-        public Boolean[] GetDownRequests()
-        {
-            return this.downRequests;
-        }
-        public Boolean GetDownRequest(int floor)
-        {
-            return this.downRequests[floor];
-        }
-        public void RemoveDownRequest(int floor)
-        {
-            downRequests[floor] = false;
-        }
-        public void RemoveUpRequest(int floor)
-        {
-            this.upRequests[floor] = false;
-        }
+        
         public int GetSpeed()
         {
             return SPEED;
@@ -106,13 +104,22 @@ namespace ElevatorSystem.Model
             Request request = new Request(floor, location, direction);
             if (request.Direction == Direction.DOWN)
             {
-                this.downRequests[floor] = true;
+               // this.downRequests[floor] = true;
+               if(floor > this.CurrentFloor)
+                {
+                    this.upRequests.Enqueue(request , floor );
+                }else
+                    this.downRequests.Enqueue(request, this.NumOfFloor- floor);
                 Debug.WriteLine("Added down request {0}", request);
 
             }
             else
             {
-                this.upRequests[floor] = true;
+                //this.upRequests[floor] = true;
+                if(floor < this.CurrentFloor)
+                    this.downRequests.Enqueue(request, this.NumOfFloor-floor );
+                else
+                    this.upRequests.Enqueue(request, floor);
                 Debug.WriteLine("Added up request {0}", request);
             }
 

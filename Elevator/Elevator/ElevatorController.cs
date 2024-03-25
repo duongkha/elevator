@@ -102,45 +102,40 @@ namespace ElevatorSystem
 
         private void ProcessMovingUp()
         {
-            int index = this.elevator.GetFirstUpRequest();
-            if (index > -1)
+           
+            if (!this.elevator.IsUpRequestEmpty())
             {
                 Debug.WriteLine("Processing moving up requests");
-                for (int i = index; i < this.elevator.NumOfFloor; i++)
+                while(!this.elevator.IsUpRequestEmpty())
                 {
-                    if (this.elevator.GetUpRequest(i))
-                    {
-                        this.elevator.MoveToFloor(i);
-                        this.elevator.RemoveUpRequest(i);
-                        OpenDoor(this.elevator.CurrentFloor);
-                        Thread.Sleep(200);
-                        CloseDoor();
-                    }
+                    Request request = this.elevator.NextUpRequest();
+                    this.elevator.MoveToFloor(request.RequestedFloor);
+                    OpenDoor(this.elevator.CurrentFloor);
+                    Thread.Sleep(200);
+                    CloseDoor();
+                    
                 }
-                this.elevator.Status = this.elevator.GetFirstDownRequest() > -1 ? ElevatorStatus.GoingDown : ElevatorStatus.Stopped;
+                this.elevator.Status = !this.elevator.IsDownRequestEmpty() ? ElevatorStatus.GoingDown : ElevatorStatus.Stopped;
                 Debug.WriteLine("Finished processing moving up requests");
             }
 
         }
         private void ProcessMovingDown()
         {
-            int index = this.elevator.GetFirstDownRequest();
-            if (index > -1)
+           
+            if (!this.elevator.IsDownRequestEmpty())
             {
                 Debug.WriteLine("Processing moving down requests");
-                for (int i = index; i >= 0; i--)
+                while(!this.elevator.IsDownRequestEmpty())
                 {
 
-                    if (this.elevator.GetDownRequest(i))
-                    {
-                        this.elevator.MoveToFloor(i);
-                        this.elevator.RemoveDownRequest(i);
-                        OpenDoor(this.elevator.CurrentFloor);
-                        Thread.Sleep(200);
-                        CloseDoor();
-                    }
+                    Request request = this.elevator.NextDownRequest();
+                    this.elevator.MoveToFloor(request.RequestedFloor);
+                    OpenDoor(this.elevator.CurrentFloor);
+                    Thread.Sleep(200);
+                    CloseDoor();
                 }
-                this.elevator.Status = this.elevator.GetFirstUpRequest() > -1 ? ElevatorStatus.GoingUp : ElevatorStatus.Stopped;
+                this.elevator.Status = !this.elevator.IsUpRequestEmpty() ? ElevatorStatus.GoingUp : ElevatorStatus.Stopped;
                 Debug.WriteLine("Finished processing moving down requests");
             }
         }
