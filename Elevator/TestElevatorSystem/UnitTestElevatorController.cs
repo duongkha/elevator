@@ -15,22 +15,24 @@ namespace TestElevatorSystem
         [Test]
         public void TestFloorPressedInside()
         {
+            controller = new ElevatorController(0, "Elevator 1", 5);
             controller.FloorPressedInside(1);
             Elevator elevator = controller.GetElevator();
             Assert.True(elevator != null);
-            Assert.True(elevator?.GetFirstUpRequest() > -1);
+            Assert.True(elevator?.IsUpRequestEmpty() == false);
            
         }
 
         [Test]
         public void TestFloorPressedOutside()
         {
+            controller = new ElevatorController(0, "Elevator 1", 5);
             controller.FloorPressedOutside(0, ElevatorSystem.Constants.Direction.UP);
             controller.FloorPressedOutside(4, ElevatorSystem.Constants.Direction.DOWN);
             Elevator elevator = controller.GetElevator();
             Assert.True(elevator != null);
-            Assert.True(elevator?.GetFirstUpRequest() > -1);
-            Assert.True(elevator?.GetFirstDownRequest() > -1);
+            Assert.False(elevator?.IsUpRequestEmpty());
+            Assert.True(elevator?.IsDownRequestEmpty());
         }
     }
 }

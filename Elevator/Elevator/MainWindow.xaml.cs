@@ -23,6 +23,7 @@ namespace ElevatorSystem
             InitializeComponent();
             controller = new ElevatorController(0, "Elevator 1", 5);
             controller.OnUpdateStatus += Controller_OnUpdateStatus;
+            controller.Start();
         }
        
         private void Controller_OnUpdateStatus(string message)
@@ -71,17 +72,17 @@ namespace ElevatorSystem
                 controller.FloorPressedOutside(0, ElevatorSystem.Constants.Direction.UP);
                 Thread.Sleep(1000);
                 controller.FloorPressedOutside(3, ElevatorSystem.Constants.Direction.UP);
-                Thread.Sleep(500);
-                controller.FloorPressedInside(2);
+                //Thread.Sleep(100);
+                controller.FloorPressedInside(1);
                 Thread.Sleep(1000);
                 controller.FloorPressedInside(4);
                 Thread.Sleep(500);
                 controller.FloorPressedOutside(0, ElevatorSystem.Constants.Direction.UP);
                 Thread.Sleep(1000);
                 controller.FloorPressedOutside(4, ElevatorSystem.Constants.Direction.DOWN);
-                Thread.Sleep(1000);
-                controller.FloorPressedInside(0);
-                Thread.Sleep(500);
+                controller.FloorPressedOutside(3, ElevatorSystem.Constants.Direction.DOWN);
+                Thread.Sleep(300);
+                controller.FloorPressedInside(1);
             }).Start();
             
         }

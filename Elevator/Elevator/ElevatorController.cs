@@ -24,7 +24,6 @@ namespace ElevatorSystem
         {
             elevator = new Elevator(id, name, numOfFloor);
             elevator.OnUpdateStatus += Elevator_OnUpdateStatus;
-            Start();
         }
 
         public Elevator GetElevator() { return elevator; }
